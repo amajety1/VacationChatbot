@@ -1,0 +1,18 @@
+# Ignore virtual environment
+.venv/
+
+# Ignore environment variable files
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Ignore other sensitive files
+config/settings.py  # Example file, adjust to your project's needs
+
+# Ignore OS-specific files
+.DS_Store
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
