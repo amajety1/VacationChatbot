@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Recommendation Chatbot</title>
+    <style>
+        /* Basic reset */
+        body, h1, div, input, button {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Full-page background and center alignment */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url('/static/images/default-background.jpg'); /* Default background image */
+        }
+
+        /* Centered content container */
+        .container {
+            background: rgba(255, 255, 255, 0.8); /* White with transparency */
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #666;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #response {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            text-align: left;
+        }
+
+        ul {
+            list-style-type: disc;
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Travel Recommendation Chatbot</h1>
+        <div>
+            <label for="user_input">Enter your preferences:</label>
+            <input type="text" id="user_input">
+            <button onclick="sendMessage()">Submit</button>
+        </div>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const userInput = document.getElementById('user_input').value;
+
+            fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userInput }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                let formattedResponse = "<ul>";
+                data.response.forEach((item) => {
+                    formattedResponse += `<li>${item}</li>`;
+                });
+                formattedResponse += "</ul>";
+
+                document.getElementById('response').innerHTML = formattedResponse;
+
+                // Change background image based on the returned category
+                let category = data.category.toLowerCase().replace(/\s+/g, '-');
+                document.body.style.backgroundImage = `url('/static/images/${category}')`;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
