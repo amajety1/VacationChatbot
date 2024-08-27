@@ -28,7 +28,7 @@ To run this project locally, you will need:
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/yourusername/chatbot.git
+   git clone https://github.com/amajety1/VacationChatbot.git
    cd chatbot
    ```
 
